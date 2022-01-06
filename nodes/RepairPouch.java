@@ -18,16 +18,16 @@ public class RepairPouch extends Node{
     LavaConstants lc = new LavaConstants();
     private final LavasMain lavasMain;
 
-    int widgetId1 = 75;
-    int componentId1 = 12;
-    int widgetId2 = 231;
-    int componentId2 = 4;
-    int widgetId3 = 162;
-    int componentId3 = 1;
-    int widgetId4 = 217;
-    int componentId4 = 4;
-    int widgetId5 = 231;
-    int componentId5 = 4;
+    int npcContactWidget = 75;
+    int npcContactMageComponent = 12;
+    int darkMageWidget1 = 231;
+    int darkMageComponent1 = 4;
+    int darkMageWidget2 = 162;
+    int darkMageComponent2 = 1;
+    int darkMageWidget3 = 217;
+    int darkMageComponent3 = 4;
+    int darkMageWidget4 = 231;
+    int darkMageComponent4 = 4;
 
     public RepairPouch(LavasMain lavasMain) {
         super(lavasMain);
@@ -42,57 +42,35 @@ public class RepairPouch extends Node{
     @Override
     public void execute() {
         System.out.println("Started mage handler");
-        if(Magic.book() != Magic.Book.LUNAR || Skills.realLevel(Skill.Magic.getIndex()) < 67){
-            System.out.println("cant repair pouches without lunar book and 67 magic");
-            ScriptManager.INSTANCE.stop();
-        }else if(Inventory.stream().id(lc.brokenGiantId, lc.brokenLargeId, lc.brokenMediumId).isEmpty() && !Chat.chatting()){
+        if(Inventory.stream().id(lc.brokenGiantId, lc.brokenLargeId, lc.brokenMediumId).isEmpty() && !Chat.chatting()){
             System.out.println("No broken pouches found");
             Store.contactedMage = false;
             lavasMain.task = LavasMain.Task.Banking;
-        }else if(!Bank.opened() && !hasRunes()){
-            //System.out.println("Bank should be open to get runes");
-            lavasMain.task = LavasMain.Task.TravelToBank;
-        }else if(Inventory.stream().name("Cosmic rune").isEmpty()){
-            Bank.withdraw("Cosmic rune", Bank.Amount.ALL);
-            ks.cWait(0.9);
-        }else if(Inventory.stream().name("Air rune").isEmpty()){
-            Bank.withdraw("Air rune", Bank.Amount.ALL);
-            ks.cWait(0.9);
-        }else if(Inventory.stream().name("Astral rune").isEmpty() && Inventory.stream().name("Rune pouch").isEmpty()){
-            Bank.withdraw("Astral rune", Bank.Amount.ALL);
-            ks.cWait(0.9);
-        }else if(Bank.opened()) {
-            Bank.close();
-            //System.out.println("Got runes closing bank");
-            Condition.wait(() -> !Bank.opened(), 100, 30);
-            //System.out.println("closed bank");
+        }else if(Magic.book() != Magic.Book.LUNAR || Skills.realLevel(Skill.Magic.getIndex()) < 67){
+            System.out.println("cant repair pouches without lunar book and 67 magic");
+            ScriptManager.INSTANCE.stop();
         }else if(!Bank.opened() && hasRunes() && !Store.contactedMage){
-            //System.out.println("contacting mage...");
             Magic.LunarSpell.NPC_CONTACT.cast("Cast");
-            if(Condition.wait(() -> Widgets.widget(75).component(12).visible(), 100, 80)) {
-                //System.out.println("Found valid widget!");
+            if(Condition.wait(() -> Widgets.widget(npcContactWidget).component(npcContactMageComponent).visible(), 100, 80)) {
                 Store.contactedMage = true;
             }
-        }else if(Widgets.widget(widgetId1).component(componentId1).visible()){
-            Widgets.widget(widgetId1).component(componentId1).interact("Dark Mage");
-            Condition.wait(() -> Widgets.widget(widgetId2).component(componentId2).visible(), 100, 50);
-            ks.cWait(0.7);
-        }else if(Widgets.widget(widgetId2).component(componentId2).visible()){
+        }else if(Widgets.widget(npcContactWidget).component(npcContactMageComponent).visible()){
+            Widgets.widget(npcContactWidget).component(npcContactMageComponent).interact("Dark Mage");
+            Condition.wait(() -> Widgets.widget(darkMageWidget1).component(darkMageComponent1).visible(), 100, 20);
+        }else if(Widgets.widget(darkMageWidget1).component(darkMageComponent1).visible()){
             Chat.clickContinue();
-            Condition.wait(() -> Widgets.widget(widgetId3).component(componentId3).visible(), 100, 50);
-            ks.cWait(0.7);
-        }else if(Widgets.widget(widgetId3).component(componentId3).visible()){
+            Condition.wait(() -> Widgets.widget(darkMageWidget2).component(darkMageComponent2).visible(), 100, 20);
+        }else if(Widgets.widget(darkMageWidget2).component(darkMageComponent2).visible()){
             Chat.continueChat("Can you repair my pouches?");
-            Condition.wait(() -> Widgets.widget(widgetId4).component(componentId4).visible(), 100, 50);
-            ks.cWait(0.7);
-        }else if(Widgets.widget(widgetId4).component(componentId4).visible()){
+            Condition.wait(() -> Widgets.widget(darkMageWidget3).component(darkMageComponent3).visible(), 100, 20);
+        }else if(Widgets.widget(darkMageWidget3).component(darkMageComponent3).visible()){
             Chat.clickContinue();
-            Condition.wait(() -> Widgets.widget(widgetId5).component(componentId5).visible(), 100, 50);
-            ks.cWait(0.7);
-        }else if(Widgets.widget(widgetId5).component(componentId5).visible()){
+            Condition.wait(() -> Widgets.widget(darkMageWidget4).component(darkMageComponent4).visible(), 100, 20);
+        }else if(Widgets.widget(darkMageWidget4).component(darkMageComponent4).visible()){
             Chat.continueChat();
-            Condition.wait(() -> !Widgets.widget(widgetId5).component(componentId5).visible(), 100, 50);
-            ks.cWait(0.7);
+            Condition.wait(() -> !Widgets.widget(darkMageWidget4).component(darkMageComponent4).visible(), 100, 20);
+        }else if(Chat.pendingInput()){
+            Chat.clickContinue();
         }else{
             Store.contactedMage = false;
         }

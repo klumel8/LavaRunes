@@ -56,10 +56,9 @@ public class TravelToBank extends Node{
             }
         }else if(bank.tile().distanceTo(Players.local().tile()) > 8){
             ks.moveToRandom(bankTile);
-            ks.cWait(1.8);
-        }else if(bank.tile().distanceTo(Players.local().tile()) <= 8){
+            Condition.wait(() -> bankTile.distanceTo(Players.local().tile()) <= 8,100,60);
+        }else if(bank.tile().distanceTo(Players.local().tile()) <= 8 && !bank.inViewport()){
             Camera.turnTo(bankTile);
-            ks.cWait(1.2);
         }
     }
 

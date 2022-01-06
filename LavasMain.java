@@ -76,6 +76,9 @@ public class LavasMain extends AbstractScript {
         nodes.add(new TravelToBank(this));
         nodes.add(new Banking(this));
         nodes.add(new RepairPouch(this));
+        nodes.add(new PrepareInvForMage(this));
+        nodes.add(new EmptyPouches(this));
+        nodes.add(new MagicImbue(this));
 
         Paint paint = new PaintBuilder().trackSkill(Skill.Runecrafting)
                 .addString(() -> lavasMade())
@@ -104,7 +107,7 @@ public class LavasMain extends AbstractScript {
     }
 
     public enum Task{
-        TravelToAltar, CraftRunes, TravelToBank, Banking, RepairPouch
+        TravelToAltar, CraftRunes, TravelToBank, Banking, RepairPouch, PrepareInvForMage, EmptyPouches, MagicImbue
     }
 
     @com.google.common.eventbus.Subscribe

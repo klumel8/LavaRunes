@@ -37,10 +37,10 @@ public class TravelToAltar extends Node{
         if (Bank.opened()) {
             Bank.close();
             Condition.wait(() -> !Bank.opened(), 100, 30);
-        }else if((!Inventory.isFull() || !gearHandler.readyToCraft()) && !lavaConstants.ruinsArea.contains(Players.local().tile())){
+        }else if(!Inventory.isFull() || !gearHandler.readyToCraft()) {
             System.out.println("Inventory not full, or doesnt have required crafting gear");
             lavasMain.task = LavasMain.Task.TravelToBank;
-        }else if(!lavaConstants.ruinsArea.contains(Players.local().tile())){
+        }else if(!lavaConstants.ruinsArea.contains(Players.local().tile()) && !lavaConstants.altarArea.contains(Players.local().tile())){
             System.out.println("Teleporting to dueling arena");
             gearHandler.ringTeleport("Duel arena");
             Condition.wait(() -> lavaConstants.ruinsArea.contains(Players.local().tile()), 100, 30);
@@ -49,14 +49,18 @@ public class TravelToAltar extends Node{
             Condition.wait(() -> Movement.running(), 100, 30);
         }else if(Movement.energyLevel() < 40 && Inventory.stream().filter(i -> i.name().contains("Stamina potion")).isNotEmpty()){
             Item stampot = Inventory.stream().filter(i -> i.name().contains("Stamina potion")).first();
-            Condition.wait(() -> stampot.valid(), 100, 30);
-        }else if(lavaConstants.ruinsArea.contains(Players.local().tile())){
+            stampot.interact("Drink");
+            Condition.wait(() -> !stampot.valid(), 100, 30);
+        }
+
+        //enter the ruins
+        if(lavaConstants.ruinsArea.contains(Players.local().tile())){
             GameObject ruins = outsideAltar.first();
             if(ruins.inViewport()){
                 if(enterAltar(ruins)) {
                     if(Condition.wait(() -> lavaConstants.altarArea.contains(Players.local().tile()), 100, 60)){
                         System.out.println("Moving on to making runes");
-                        lavasMain.task = LavasMain.Task.CraftRunes;
+                        lavasMain.task = LavasMain.Task.MagicImbue;
                     }
                 }
             }else if(ruins.tile().distanceTo(Players.local().tile()) < 10){
@@ -64,10 +68,23 @@ public class TravelToAltar extends Node{
                 ks.cWait(1.2);
             }else if(lavaConstants.mysteriousRuins.reachable()){
                 ks.moveToRandom(lavaConstants.mysteriousRuins);
-                ks.cWait(2);
+                Condition.wait(() -> lavaConstants.mysteriousRuins.distanceTo(Players.local().tile()) < 7, 100, 70);
             }else{
                 Movement.moveTo(lavaConstants.mysteriousRuins);
                 Condition.wait(() -> lavaConstants.mysteriousRuins.distanceTo(Players.local().tile()) < 6, 100, 60);
+            }
+        }
+
+        //walk to the altar
+        if(lavaConstants.altarArea.contains(Players.local())){
+            GameObject altar = Objects.stream().name("Altar").first();
+            if(lavaConstants.altarTile.distanceTo(Players.local().tile()) > 9){
+                ks.moveToRandom(lavaConstants.altarTile);
+                Condition.wait(() -> lavaConstants.altarTile.distanceTo(Players.local().tile()) < 9, 100, 40);
+            }else if((lavaConstants.altarTile.distanceTo(Players.local().tile()) < 9 && !altar.inViewport()) ||
+                    (altar.inViewport() && ((altar.centerPoint().getX() > 600) || altar.centerPoint().getX() < 400))){
+                Camera.turnTo(altar.tile());
+                ks.cWait(0.5);
             }
         }
     }

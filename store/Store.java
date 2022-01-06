@@ -17,7 +17,7 @@ public class Store {
     public static List<String> fullPouches = new ArrayList<>();
     public static List<String> initialItems = new ArrayList<>();
     public static int lavasMade = 0;
-    public static long earthTalismanAmount;
+    public static long earthTalismanAmount = 0;
 
     public static boolean contactedMage = false;
     public static boolean goFerox = false;
