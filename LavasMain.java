@@ -113,4 +113,8 @@ public class LavasMain extends AbstractScript {
             Store.lavasMade += evt.getQuantityChange();
         }
     }
+    @com.google.common.eventbus.Subscribe
+    void onInventoryItemAction(InventoryItemActionEvent evt){
+        System.out.println(evt.getName()+":"+evt.getId());
+    }
 }

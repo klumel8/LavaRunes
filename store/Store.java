@@ -4,6 +4,7 @@ import org.powbot.api.Area;
 import org.powbot.api.Tile;
 import org.powbot.api.rt4.Inventory;
 import org.powbot.api.rt4.Item;
+import org.powbot.mobile.script.Logger;
 
 import java.util.ArrayList;
 import java.util.List;

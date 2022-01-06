@@ -7,6 +7,8 @@ import klumel8.Lavas.store.LavaConstants;
 import klumel8.Lavas.store.Store;
 import org.powbot.api.Condition;
 import org.powbot.api.rt4.*;
+import org.powbot.api.rt4.walking.model.Skill;
+import org.powbot.mobile.script.ScriptManager;
 
 import java.util.Random;
 
@@ -40,7 +42,10 @@ public class RepairPouch extends Node{
     @Override
     public void execute() {
         System.out.println("Started mage handler");
-        if(Inventory.stream().id(lc.brokenPouchId).isEmpty() && !Chat.chatting()){
+        if(Magic.book() != Magic.Book.LUNAR || Skills.realLevel(Skill.Magic.getIndex()) < 67){
+            System.out.println("cant repair pouches without lunar book and 67 magic");
+            ScriptManager.INSTANCE.stop();
+        }else if(Inventory.stream().id(lc.brokenGiantId, lc.brokenLargeId, lc.brokenMediumId).isEmpty() && !Chat.chatting()){
             System.out.println("No broken pouches found");
             Store.contactedMage = false;
             lavasMain.task = LavasMain.Task.Banking;

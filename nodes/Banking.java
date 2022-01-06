@@ -34,7 +34,7 @@ public class Banking extends Node{
         System.out.println("Banking");
         if(!Bank.opened()){
             lavasMain.task = LavasMain.Task.TravelToBank;
-        }else if(Inventory.stream().id(lc.brokenPouchId).isNotEmpty()){ //5515 is broken pouch id
+        }else if(Inventory.stream().id(lc.brokenGiantId, lc.brokenLargeId, lc.brokenMediumId).isNotEmpty()){ //5515 is broken pouch id
             System.out.println("Found broken pouch, repairing");
             makeSpace();
             lavasMain.task = LavasMain.Task.RepairPouch;

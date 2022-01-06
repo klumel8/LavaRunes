@@ -10,7 +10,9 @@ public class LavaConstants {
     public Area ruinsArea = new Area(new Tile(3328, 3227, 0), new Tile(3300, 3261, 0));
     public Area altarArea = new Area(new Tile(2572, 4851, 0), new Tile(2591, 4830, 0));
 
-    public int brokenPouchId = 5515;
+    public int brokenGiantId = 5515;
+    public int brokenLargeId = 5513;
+    public int brokenMediumId = 5511;
 
     public Area bankArea = new Area(new Tile(2420, 3060, 0), new Tile(2460,3110, 0));
     public Tile bankTile = new Tile(2444, 3083, 0);
