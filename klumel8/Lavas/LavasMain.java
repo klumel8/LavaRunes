@@ -78,7 +78,6 @@ public class LavasMain extends AbstractScript {
 
         Paint paint = new PaintBuilder().trackSkill(Skill.Runecrafting)
                 .addString(() -> lavasMade())
-                .addString(() -> "Can cast magic imbue:" + Magic.LunarSpell.MAGIC_IMBUE.canCast())
                 .build();
         addPaint(paint);
     }
@@ -97,7 +96,7 @@ public class LavasMain extends AbstractScript {
         for (final Node node : nodes) {
             if (node.validate()) {
                 status = node.status();
-                //node.execute();
+                node.execute();
                 break;
             }
         }
