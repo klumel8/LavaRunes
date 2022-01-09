@@ -23,7 +23,7 @@ public class MagicImbue extends Node{
 
     @Override
     public void execute() {
-        if(Magic.book() != Magic.Book.LUNAR && !gearHandler.canMakeLavas()){
+        if(!Magic.LunarSpell.MAGIC_IMBUE.canCast()){
             System.out.println("DOES NOT MEET MAGIC REQUIREMENTS (lunar / POUCH)");
             Condition.sleep(100);
             ScriptManager.INSTANCE.stop();

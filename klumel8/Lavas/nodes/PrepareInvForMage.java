@@ -28,19 +28,31 @@ public class PrepareInvForMage extends Node{
             System.out.println("No broken pouches found");
             Store.contactedMage = false;
             lavasMain.task = LavasMain.Task.Banking;
-        }else if(!Bank.opened() && !hasRunes()){
+            return;
+        }else if(!Bank.opened() && !Magic.LunarSpell.NPC_CONTACT.canCast()){
             lavasMain.task = LavasMain.Task.TravelToBank;
-        }else if(Inventory.stream().name("Cosmic rune").isEmpty()){
-            Bank.withdraw("Cosmic rune", Bank.Amount.ALL);
-        }else if(Inventory.stream().name("Air rune").isEmpty()){
-            Bank.withdraw("Air rune", Bank.Amount.ALL);
-        }else if(Inventory.stream().name("Astral rune").isEmpty() && Inventory.stream().name("Rune pouch").isEmpty()){
-            Bank.withdraw("Astral rune", Bank.Amount.ALL);
-        }else if(Bank.opened()) {
-            Bank.close();
-            //System.out.println("Got runes closing bank");
-            Condition.wait(() -> !Bank.opened(), 100, 30);
-            //System.out.println("closed bank");
+            return;
+        }
+
+        if(!Magic.LunarSpell.NPC_CONTACT.canCast()) {
+            if (Inventory.stream().name("Cosmic rune").isEmpty()) {
+                Bank.withdraw("Cosmic rune", Bank.Amount.ALL);
+            }
+
+            if (Inventory.stream().name("Air rune").isEmpty()) {
+                Bank.withdraw("Air rune", Bank.Amount.ALL);
+            }
+
+            if (Inventory.stream().name("Astral rune").isEmpty() && Inventory.stream().name("Rune pouch").isEmpty()) {
+                Bank.withdraw("Astral rune", Bank.Amount.ALL);
+            }
+
+            if (Bank.opened()) {
+                Bank.close();
+                //System.out.println("Got runes closing bank");
+                Condition.wait(() -> !Bank.opened(), 100, 30);
+                //System.out.println("closed bank");
+            }
         }else{
             lavasMain.task = LavasMain.Task.RepairPouch;
         }

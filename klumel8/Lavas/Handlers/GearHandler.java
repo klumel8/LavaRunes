@@ -44,8 +44,8 @@ public class GearHandler {
     }
 
     public boolean canMakeLavas(){
-        return (Store.magicImbue && (Inventory.stream().name("Rune pouch").isNotEmpty() || hasImbueRunes() && Magic.book() == Magic.Book.LUNAR)
-                || (!Store.magicImbue && Inventory.stream().name("Earth talisman").isNotEmpty()));
+        return Store.magicImbue && Magic.LunarSpell.MAGIC_IMBUE.canCast()
+                || (!Store.magicImbue && Inventory.stream().name("Earth talisman").isNotEmpty());
     }
 
     public boolean ringOkay(){
@@ -77,10 +77,6 @@ public class GearHandler {
     }
 
     public boolean hasImbueRunes(){
-        return ((Inventory.stream().name("Water rune").isNotEmpty() && Inventory.stream().name("Fire rune").isNotEmpty())
-                || Equipment.stream().filter(i -> i.name().contains("Steam")).isNotEmpty()
-                || Equipment.stream().filter(i -> i.name().contains("steam")).isNotEmpty())
-                &&
-                Inventory.stream().name("Astral rune").isNotEmpty();
+        return Magic.LunarSpell.MAGIC_IMBUE.canCast();
     }
 }
