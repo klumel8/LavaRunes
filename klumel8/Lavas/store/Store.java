@@ -45,6 +45,7 @@ public class Store {
         if(!fullPouches.contains(name)){
             fullPouches.add(name);
         }
+        System.out.println("set " + name + " to full.");
     }
 
     public static void setPouchEmpty(String name){

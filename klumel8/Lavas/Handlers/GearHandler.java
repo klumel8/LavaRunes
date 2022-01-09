@@ -13,11 +13,6 @@ import java.util.Random;
 
 public class GearHandler {
     Random rand = new Random();
-    private final LavasMain lavasMain;
-
-    public GearHandler(LavasMain lavasMain) {
-        this.lavasMain = lavasMain;
-    }
 
     public boolean readyToCraft(){
         if(!canEnterAltar()){

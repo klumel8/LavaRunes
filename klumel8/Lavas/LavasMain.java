@@ -1,11 +1,32 @@
 package klumel8.Lavas;
 
-import klumel8.Lavas.nodes.*;
+import klumel8.Lavas.Branches.AtAltar.AtAltar;
+import klumel8.Lavas.Branches.AtAltar.Leaves.CraftRunes;
+import klumel8.Lavas.Branches.AtAltar.Leaves.EmptyPouches;
+import klumel8.Lavas.Branches.AtAltar.Leaves.MagicImbue;
+import klumel8.Lavas.Branches.AtAltar.Leaves.TeleBank;
+import klumel8.Lavas.Branches.BankLavaRun.BankLavaRun;
+import klumel8.Lavas.Branches.BankLavaRun.Leaves.*;
+import klumel8.Lavas.Branches.GoToAltar.GoToAltar;
+import klumel8.Lavas.Branches.GoToAltar.Leaves.TurnToAltar;
+import klumel8.Lavas.Branches.GoToAltar.Leaves.WalkToAltar;
+import klumel8.Lavas.Branches.GoToRuins.GoToRuins;
+import klumel8.Lavas.Branches.GoToRuins.Leaves.*;
+import klumel8.Lavas.Branches.GoToBank.GoToBank;
+import klumel8.Lavas.Branches.GoToBank.Leaves.TurnToBank;
+import klumel8.Lavas.Branches.GoToBank.Leaves.WalkToBank;
+import klumel8.Lavas.Branches.PrepInvDarkMage.Leaves.FetchRunes;
+import klumel8.Lavas.Branches.PrepInvDarkMage.Leaves.OpenBankMage;
+import klumel8.Lavas.Branches.PrepInvDarkMage.PrepInvDarkMage;
+import klumel8.Lavas.Branches.RepairPouch.Leaves.CloseBankMage;
+import klumel8.Lavas.Branches.RepairPouch.Leaves.ContactMage;
+import klumel8.Lavas.Branches.RepairPouch.Leaves.HandleMage;
+import klumel8.Lavas.Branches.RepairPouch.RepairPouch;
+import klumel8.Lavas.Framework.Branch;
+import klumel8.Lavas.Framework.Leaf;
 import klumel8.Lavas.store.Store;
 import org.powbot.api.Condition;
 import org.powbot.api.event.InventoryChangeEvent;
-import org.powbot.api.event.InventoryItemActionEvent;
-import org.powbot.api.rt4.*;
 import org.powbot.api.rt4.walking.model.Skill;
 import org.powbot.api.script.AbstractScript;
 import org.powbot.api.script.OptionType;
@@ -45,8 +66,9 @@ import java.util.List;
 )
 
 public class LavasMain extends AbstractScript {
-    public List<Node> nodes = new ArrayList<>();
-    String status = "none";
+    public List<Branch> branches = new ArrayList<>();
+    String leafStatus = "none";
+    String branchStatus = "none";
     public Task task = Task.TravelToAltar;
 
     public static void main(String[] args){
@@ -66,7 +88,7 @@ public class LavasMain extends AbstractScript {
         Store.setInitialItems();
         Store.lastImbue = System.currentTimeMillis() - 20000;
         //System.out.println("Detected: " + Store.pouches + " with total capacity of " + Store.pouchCapacity());
-
+/*
         nodes.add(new TravelToAltar(this));
         nodes.add(new CraftRunes(this));
         nodes.add(new TravelToBank(this));
@@ -76,8 +98,20 @@ public class LavasMain extends AbstractScript {
         nodes.add(new EmptyPouches(this));
         nodes.add(new MagicImbue(this));
 
+ */
+        branches.add(new AtAltar(new CraftRunes(), new EmptyPouches(), new MagicImbue(), new TeleBank()));
+        branches.add(new GoToBank(new OpenBankLava(), new TurnToBank(), new WalkToBank()));
+        branches.add(new BankLavaRun(new OpenBankLava(), new WithdrawEarthTalisman(), new WithdrawStamina(), new DepositRunes(),
+                new Jewellery(), new FillPouches(), new WithdrawPureEss(), new TeleDuelArena()));
+        branches.add(new GoToRuins(new CloseBankRun(), new EnterRuins(), new TeleDuelArena(), new TurnToRuins(), new WalkToRuins(), new AlwaysRun(), new DrinkStamina()));
+        branches.add(new GoToAltar(new TurnToAltar(), new WalkToAltar()));
+        branches.add(new PrepInvDarkMage(new FetchRunes(), new OpenBankMage()));
+        branches.add(new RepairPouch(new CloseBankMage(), new ContactMage(), new HandleMage()));
+
         Paint paint = new PaintBuilder().trackSkill(Skill.Runecrafting)
                 .addString(() -> lavasMade())
+                .addString(() -> branchStatus)
+                .addString(() -> leafStatus)
                 .build();
         addPaint(paint);
     }
@@ -93,11 +127,15 @@ public class LavasMain extends AbstractScript {
 
     @Override
     public void poll() {
-        for (final Node node : nodes) {
-            if (node.validate()) {
-                status = node.status();
-                node.execute();
-                break;
+        for (Branch branch : branches) {
+            if (branch.validate()) {
+                branchStatus = branch.status();
+                for (Leaf leaf : branch.leaves){
+                    if(leaf.validate()){
+                        leafStatus = leaf.status();
+                        leaf.execute();
+                    }
+                }
             }
         }
     }
@@ -111,9 +149,5 @@ public class LavasMain extends AbstractScript {
         if(evt.getItemName().equals("Lava rune") && evt.getQuantityChange() > 0){
             Store.lavasMade += evt.getQuantityChange();
         }
-    }
-    @com.google.common.eventbus.Subscribe
-    void onInventoryItemAction(InventoryItemActionEvent evt){
-        System.out.println(evt.getName()+":"+evt.getId());
     }
 }
