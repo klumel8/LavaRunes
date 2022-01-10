@@ -95,7 +95,7 @@ public class LavasMain extends AbstractScript {
         branches.add(new GoToBank(new OpenBankLava(), new TurnToBank(), new WalkToBank()));
         branches.add(new BankLavaRun(new OpenBankLava(), new WithdrawEarthTalisman(), new WithdrawStamina(), new DepositRunes(),
                 new Jewellery(), new FillPouches(), new WithdrawPureEss(), new TeleDuelArena()));
-        branches.add(new GoToRuins(new CloseBankRun(), new EnterRuins(), new TeleDuelArena(), new TurnToRuins(), new WalkToRuins(), new AlwaysRun(), new DrinkStamina()));
+        branches.add(new GoToRuins(new CloseBankRun(), new EnterRuins(), new TeleDuelArena(), new TurnToRuins(), new WalkToRuins(), new AlwaysRun(), new DrinkStamina(), new DrinkPool()));
         branches.add(new GoToAltar(new TurnToAltar(), new WalkToAltar()));
         branches.add(new PrepInvDarkMage(new FetchRunes(), new OpenBankMage()));
         branches.add(new RepairPouch(new CloseBankMage(), new ContactMage(), new HandleDialogue()));

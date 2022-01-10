@@ -19,5 +19,5 @@ public class LavaConstants {
 
     public int altarId = 34764;
 
-    public int runThreshold = 85;
+    public int runThreshold = 20;
 }

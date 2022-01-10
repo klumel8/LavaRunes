@@ -16,7 +16,7 @@ public class DrinkPool extends Leaf {
 
     @Override
     public void execute() {
-        GameObject pool = Objects.stream().name("Pool of refreshment").first();
+        GameObject pool = Objects.stream().name("Pool of refreshment").nearest().first();
 
         if(!pool.inViewport()){
             Camera.turnTo(pool.tile());
