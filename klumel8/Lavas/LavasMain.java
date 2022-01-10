@@ -20,13 +20,15 @@ import klumel8.Lavas.Branches.PrepInvDarkMage.Leaves.OpenBankMage;
 import klumel8.Lavas.Branches.PrepInvDarkMage.PrepInvDarkMage;
 import klumel8.Lavas.Branches.RepairPouch.Leaves.CloseBankMage;
 import klumel8.Lavas.Branches.RepairPouch.Leaves.ContactMage;
-import klumel8.Lavas.Branches.RepairPouch.Leaves.HandleMage;
+import klumel8.Lavas.Branches.RepairPouch.Leaves.HandleDialogue;
 import klumel8.Lavas.Branches.RepairPouch.RepairPouch;
 import klumel8.Lavas.Framework.Branch;
 import klumel8.Lavas.Framework.Leaf;
 import klumel8.Lavas.store.Store;
 import org.powbot.api.Condition;
-import org.powbot.api.event.InventoryChangeEvent;
+import org.powbot.api.event.*;
+import org.powbot.api.rt4.Magic;
+import org.powbot.api.rt4.Widgets;
 import org.powbot.api.rt4.walking.model.Skill;
 import org.powbot.api.script.AbstractScript;
 import org.powbot.api.script.OptionType;
@@ -36,7 +38,9 @@ import org.powbot.api.script.paint.Paint;
 import org.powbot.api.script.paint.PaintBuilder;
 import org.powbot.mobile.service.ScriptUploader;
 
+import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @ScriptManifest(
@@ -69,7 +73,6 @@ public class LavasMain extends AbstractScript {
     public List<Branch> branches = new ArrayList<>();
     String leafStatus = "none";
     String branchStatus = "none";
-    public Task task = Task.TravelToAltar;
 
     public static void main(String[] args){
             new ScriptUploader().uploadAndStart("KlumLavas", "N/A", "127.0.0.1:5575", true, false);
@@ -87,18 +90,7 @@ public class LavasMain extends AbstractScript {
         Store.getPouches();
         Store.setInitialItems();
         Store.lastImbue = System.currentTimeMillis() - 20000;
-        //System.out.println("Detected: " + Store.pouches + " with total capacity of " + Store.pouchCapacity());
-/*
-        nodes.add(new TravelToAltar(this));
-        nodes.add(new CraftRunes(this));
-        nodes.add(new TravelToBank(this));
-        nodes.add(new Banking(this));
-        nodes.add(new RepairPouch(this));
-        nodes.add(new PrepareInvForMage(this));
-        nodes.add(new EmptyPouches(this));
-        nodes.add(new MagicImbue(this));
 
- */
         branches.add(new AtAltar(new CraftRunes(), new EmptyPouches(), new MagicImbue(), new TeleBank()));
         branches.add(new GoToBank(new OpenBankLava(), new TurnToBank(), new WalkToBank()));
         branches.add(new BankLavaRun(new OpenBankLava(), new WithdrawEarthTalisman(), new WithdrawStamina(), new DepositRunes(),
@@ -106,11 +98,10 @@ public class LavasMain extends AbstractScript {
         branches.add(new GoToRuins(new CloseBankRun(), new EnterRuins(), new TeleDuelArena(), new TurnToRuins(), new WalkToRuins(), new AlwaysRun(), new DrinkStamina()));
         branches.add(new GoToAltar(new TurnToAltar(), new WalkToAltar()));
         branches.add(new PrepInvDarkMage(new FetchRunes(), new OpenBankMage()));
-        branches.add(new RepairPouch(new CloseBankMage(), new ContactMage(), new HandleMage()));
+        branches.add(new RepairPouch(new CloseBankMage(), new ContactMage(), new HandleDialogue()));
 
         Paint paint = new PaintBuilder().trackSkill(Skill.Runecrafting)
                 .addString(() -> lavasMade())
-                .addString(() -> branchStatus)
                 .addString(() -> leafStatus)
                 .build();
         addPaint(paint);
@@ -140,14 +131,4 @@ public class LavasMain extends AbstractScript {
         }
     }
 
-    public enum Task{
-        TravelToAltar, CraftRunes, TravelToBank, Banking, RepairPouch, PrepareInvForMage, EmptyPouches, MagicImbue
-    }
-
-    @com.google.common.eventbus.Subscribe
-    void onInventoryChange(InventoryChangeEvent evt){
-        if(evt.getItemName().equals("Lava rune") && evt.getQuantityChange() > 0){
-            Store.lavasMade += evt.getQuantityChange();
-        }
-    }
 }

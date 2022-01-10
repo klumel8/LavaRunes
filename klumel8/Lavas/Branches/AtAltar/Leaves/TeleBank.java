@@ -12,12 +12,13 @@ public class TeleBank extends Leaf {
 
     @Override
     public boolean validate() {
-        return Store.fullPouches.isEmpty() && Inventory.stream().name("Pure essence").isEmpty();
+        return (Store.fullPouches.isEmpty() && Inventory.stream().name("Pure essence").isEmpty())
+                || (!Store.magicImbue && Inventory.stream().name("Earth talisman").isEmpty());
     }
 
     @Override
     public void execute() {
-        if(Movement.energyLevel() > 20 || Store.useStaminas) {
+        if(Movement.energyLevel() > lc.runThreshold || Store.useStaminas) {
             if(ringTeleport("Castle Wars")) {
                 Condition.wait(() -> lc.bankArea.contains(Players.local()), 100, 24);
             }

@@ -10,7 +10,8 @@ public class TeleDuelArena extends Leaf {
 
     @Override
     public boolean validate() {
-        return !Bank.opened() && !lc.ruinsArea.contains(Players.local()) && !lc.altarArea.contains(Players.local());
+        return !Bank.opened() && !lc.ruinsArea.contains(Players.local()) && !lc.altarArea.contains(Players.local()) &&
+                !(lc.feroxBankArea.contains(Players.local()) && Movement.energyLevel() < lc.runThreshold + 10);
     }
 
     @Override

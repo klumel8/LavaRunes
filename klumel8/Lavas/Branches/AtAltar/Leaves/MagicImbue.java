@@ -9,7 +9,7 @@ import org.powbot.mobile.script.ScriptManager;
 public class MagicImbue extends Leaf {
     @Override
     public boolean validate() {
-        return (System.currentTimeMillis() - Store.lastImbue) > 13000;
+        return (System.currentTimeMillis() - Store.lastImbue) > 13000 && Store.magicImbue;
     }
 
     @Override
