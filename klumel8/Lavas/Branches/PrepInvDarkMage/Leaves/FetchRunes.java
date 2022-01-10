@@ -1,10 +1,12 @@
 package klumel8.Lavas.Branches.PrepInvDarkMage.Leaves;
 
 import klumel8.Lavas.Framework.Leaf;
+import klumel8.Lavas.KlumScripts;
 import org.powbot.api.rt4.Bank;
 import org.powbot.api.rt4.Inventory;
 
 public class FetchRunes extends Leaf {
+    KlumScripts ks = new KlumScripts();
     @Override
     public boolean validate() {
         return Bank.opened();
@@ -12,6 +14,8 @@ public class FetchRunes extends Leaf {
 
     @Override
     public void execute() {
+        ks.makeSpace();
+
         if(Inventory.stream().name("Cosmic rune").isEmpty() && Bank.stream().name("Cosmic rune").first().stackSize() != 0){
             Bank.withdraw("Cosmic rune", Bank.Amount.ALL);
         }

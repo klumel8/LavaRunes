@@ -19,7 +19,8 @@ public class GoToAltar extends Branch {
 
     @Override
     public boolean validate() {
-        return lc.altarArea.contains(Players.local()) && !Objects.stream().id(lc.altarId).first().inViewport();
+        return lc.altarArea.contains(Players.local()) && (!Objects.stream().id(lc.altarId).first().inViewport()
+                || Objects.stream().id(lc.altarId).first().tile().distanceTo(Players.local()) > 7);
     }
 
     @Override
