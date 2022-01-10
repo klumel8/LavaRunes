@@ -131,4 +131,10 @@ public class LavasMain extends AbstractScript {
         }
     }
 
+    @com.google.common.eventbus.Subscribe
+    void onInventoryChange(InventoryChangeEvent evt){
+        if(evt.getItemName().equals("Lava rune") && evt.getQuantityChange() > 0){
+            Store.lavasMade += evt.getQuantityChange();
+        }
+    }
 }

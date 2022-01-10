@@ -21,6 +21,9 @@ public class DrinkStamina extends Leaf {
         Item stam = Inventory.stream().filtered(s -> s.name().contains("Stamina")).first();
         stam.interact("Drink");
         Condition.wait(() -> !stam.valid(), 100, 12);
+        if(Inventory.stream().name("Vial").isNotEmpty()){
+            Inventory.stream().name("Vial").first().interact("Drop");
+        }
     }
 
     @Override
