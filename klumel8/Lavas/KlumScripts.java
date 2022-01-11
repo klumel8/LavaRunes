@@ -31,7 +31,7 @@ public class KlumScripts {
 
         Tile loc = new Tile(x, y, floor);
 
-        if (loc.matrix().inViewport() && rand.nextInt(2) == 0) {
+        if (loc.matrix().inViewport() && loc.matrix().isRendered() && rand.nextInt(2) == 0) {
             return loc.matrix().interact("Walk here");
         } else {
             return Movement.step(loc);

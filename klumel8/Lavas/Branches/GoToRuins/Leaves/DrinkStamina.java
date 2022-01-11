@@ -13,7 +13,7 @@ public class DrinkStamina extends Leaf {
 
     @Override
     public boolean validate() {
-        return Movement.energyLevel() < lc.runThreshold && Store.useStaminas;
+        return Movement.energyLevel() < lc.runThreshold && Store.useStaminas && Inventory.stream().filtered(s -> s.name().contains("Stamina")).isNotEmpty();
     }
 
     @Override

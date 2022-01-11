@@ -22,7 +22,7 @@ public class GoToRuins extends Branch {
     @Override
     public boolean validate() {
         //System.out.print("GoToAltar" + (!lc.altarArea.contains(Players.local()) && Inventory.isFull() && Store.fullPouches == Store.pouches));
-        return !lc.altarArea.contains(Players.local().tile()) && Inventory.isFull() && checkPouchesFull();
+        return !lc.altarArea.contains(Players.local().tile()) && Inventory.emptySlotCount() < 3 && checkPouchesFull();
     }
 
     @Override
