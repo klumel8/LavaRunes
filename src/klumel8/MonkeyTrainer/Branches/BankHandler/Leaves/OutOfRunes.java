@@ -11,7 +11,7 @@ import org.powbot.mobile.script.ScriptManager;
 public class OutOfRunes extends Leaf {
     @Override
     public boolean validate() {
-        if(!Shared.bankArea.contains(Players.local().tile())){
+        if(!Shared.bankArea.contains(Players.local().tile()) || Shared.chinning){
             return false;
         }
 

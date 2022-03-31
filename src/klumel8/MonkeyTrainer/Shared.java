@@ -58,5 +58,5 @@ public class Shared {
     public static List<Tile> dropTiles = new ArrayList<>();
 
     public static String[] keepItems = {"Camelot teleport", "Ape atoll teleport"};
-    public static Magic.AncientSpell spell;
+    public static Magic.AncientSpell spell  = Magic.AncientSpell.SMOKE_BURST;
 }

@@ -17,7 +17,7 @@ public class PickUpBones extends Leaf {
 
     @Override
     public void execute() {
-        GroundItemStream bones = GroundItems.stream().name("Bones").filtered(b -> b.tile().equals(Shared.bestBoneTile));
+        GroundItemStream bones = GroundItems.stream().name("Bones").at(Shared.bestBoneTile);
 
         if(bones.isEmpty()){
             Shared.pickingBones = false;

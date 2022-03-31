@@ -34,7 +34,7 @@ public class MonkeyHandler extends Branch {
     }
 
     public void updateMonkeys(){
-        Shared.monkeys = Npcs.stream().id(Shared.targetID).filtered(i -> i.tile().distanceTo(Players.local().tile()) <= 6);
+        Shared.monkeys = Npcs.stream().id(Shared.targetID).within(6);
         if(Shared.monkeys.isEmpty()){
             return;
         }

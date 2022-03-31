@@ -11,7 +11,7 @@ import org.powbot.mobile.script.ScriptManager;
 public class WithdrawTeleports extends Leaf {
     @Override
     public boolean validate() {
-        return Inventory.stream().name("Ape atoll teleport").isEmpty() || Inventory.stream().name("Camelot teleport").isEmpty() && Bank.opened();
+        return (Inventory.stream().name("Ape atoll teleport").isEmpty() || Inventory.stream().name("Camelot teleport").isEmpty()) && Bank.opened();
     }
 
     @Override

@@ -30,7 +30,7 @@ public class DistributeBones extends Leaf {
         for (int i = 0; i < N; i++){
             Tile dropTile = Shared.dropTiles.get(i);
             //System.out.println("bone count on droptile " + GroundItems.stream().name("Bones").filtered(b -> b.tile().equals(dropTile)).count());
-            if(GroundItems.stream().name("Bones").filtered(b -> b.tile().equals(dropTile)).isEmpty() && !Shared.trapTiles.contains(dropTile)){
+            if(GroundItems.stream().name("Bones").at(dropTile).isEmpty() && !Shared.trapTiles.contains(dropTile)){
                 dropTile.matrix().interact("Walk here");
                 Condition.wait(() -> dropTile.distanceTo(Players.local().tile()) < 1, 100, 16);
                 Item bone = Inventory.stream().name("Bones").first();

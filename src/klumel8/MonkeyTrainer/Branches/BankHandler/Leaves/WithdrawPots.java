@@ -10,7 +10,8 @@ import org.powbot.mobile.script.ScriptManager;
 public class WithdrawPots extends Leaf {
     @Override
     public boolean validate() {
-        return Inventory.stream().name("Prayer potion(4)").isEmpty();
+        return Inventory.stream().name("Prayer potion(4)").isEmpty()
+                && Bank.opened();
     }
 
     @Override

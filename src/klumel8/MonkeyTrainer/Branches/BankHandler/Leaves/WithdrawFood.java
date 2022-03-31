@@ -10,7 +10,7 @@ import org.powbot.mobile.script.ScriptManager;
 public class WithdrawFood extends Leaf {
     @Override
     public boolean validate() {
-        return Inventory.stream().name(Shared.food).isEmpty();
+        return Inventory.stream().name(Shared.food).isEmpty() && Bank.opened();
     }
 
     @Override
@@ -22,7 +22,7 @@ public class WithdrawFood extends Leaf {
             ScriptManager.INSTANCE.stop();
             return;
         }
-        Bank.withdraw(Shared.food, 3);
+        Bank.withdraw(Shared.food, 4);
         Condition.wait(() -> Inventory.stream().name(Shared.food).isNotEmpty(), 100, 24);
     }
 
