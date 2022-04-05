@@ -15,9 +15,9 @@ public class Process extends Leaf {
     @Override
     public void execute() {
         Item tool = Inventory.stream().name(EelMain.toolName).first();
-        if(tool.interact("Use")) {
+        if(tool.valid() && tool.interact("Use")) {
             Item eel = Inventory.stream().name(EelMain.fishName).first();
-            if(eel.interact("Use")) {
+            if(tool.valid() && eel.interact("Use")) {
                 Condition.wait(() -> !eel.valid(), 100, 12);
             }
         }

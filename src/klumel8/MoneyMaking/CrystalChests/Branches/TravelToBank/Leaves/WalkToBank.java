@@ -18,8 +18,9 @@ public class WalkToBank extends Leaf {
     @Override
     public void execute() {
         Random rand = new Random();
-        Movement.step(CrystalConstants.bankTile.derive(-rand.nextInt(3), rand.nextInt(3)));
-        Condition.wait(() -> CrystalConstants.bankTile.distanceTo(Players.local().tile()) <= 8,100,60);
+        if(Movement.step(CrystalConstants.bankTile.derive(-rand.nextInt(3), rand.nextInt(3)))) {
+            Condition.wait(() -> CrystalConstants.bankTile.distanceTo(Players.local().tile()) <= 8, 100, 60);
+        }
     }
 
     @Override

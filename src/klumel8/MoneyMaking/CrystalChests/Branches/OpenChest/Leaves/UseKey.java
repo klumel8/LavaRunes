@@ -20,9 +20,9 @@ public class UseKey extends Leaf {
 
         GameObject chest = Objects.stream().id(CrystalConstants.chestID).first();
 
-        if(keys.first().interact("Use")) {
+        if(keys.first().valid() && keys.first().interact("Use")) {
 
-            if(chest.interact("Use")){
+            if(chest.valid() && chest.interact("Use")){
 
                 if(Condition.wait(() -> !chest.valid(), 100, 30)){
                     System.out.println("figured out a key was used");

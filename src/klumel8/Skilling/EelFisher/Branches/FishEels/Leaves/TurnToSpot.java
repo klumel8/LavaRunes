@@ -16,7 +16,7 @@ public class TurnToSpot extends Leaf {
             return false;
         }
         Npc fishSpot = fishSpots.first();
-        return !fishSpot.inViewport() && fishSpot.tile().distanceTo(Players.local().tile()) < 8;
+        return fishSpot.valid() && !fishSpot.inViewport() && fishSpot.tile().distanceTo(Players.local().tile()) < 8;
     }
 
     @Override

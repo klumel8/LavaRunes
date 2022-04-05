@@ -18,7 +18,11 @@ public class TurnToChest extends Leaf {
 
         GameObject chest = chests.first();
 
-        return !chest.inViewport() && chest.isRendered();
+        if(chest.valid()) {
+            return !chest.inViewport() && chest.isRendered();
+        }else{
+            return false;
+        }
     }
 
     @Override

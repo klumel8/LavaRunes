@@ -4,6 +4,7 @@ import klumel8.KlumAPI.Framework.Leaf;
 import klumel8.Skilling.MonkeyTrainer.Shared;
 import org.powbot.api.Condition;
 import org.powbot.api.rt4.Inventory;
+import org.powbot.api.rt4.Item;
 import org.powbot.api.rt4.Players;
 
 public class TeleBank extends Leaf {
@@ -15,7 +16,8 @@ public class TeleBank extends Leaf {
 
     @Override
     public void execute() {
-        if(Inventory.stream().name("Camelot teleport").first().interact("Break")) {
+        Item tele = Inventory.stream().name("Camelot teleport").first();
+        if(tele.valid() && tele.interact("Break")) {
             Condition.wait(() -> Shared.bankArea.contains(Players.local().tile()), 100, 50);
         }
     }

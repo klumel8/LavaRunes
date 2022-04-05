@@ -24,7 +24,9 @@ public class DropItems extends Leaf {
         InventoryItemStream items = Inventory.stream().name(CrystalConstants.unwantedItems);
 
         for (Item item : items){
-            item.interact("Drop");
+            if(item.valid()) {
+                item.interact("Drop");
+            }
         }
     }
 

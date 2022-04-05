@@ -22,7 +22,7 @@ public class SipStamina extends Leaf {
     public void execute() {
         ks.makeSpace();
         BankItemStream stams = Bank.stream().filtered(i -> i.name().contains("Stamina potion"));
-        if(stams.isNotEmpty()){
+        if(stams.first().valid()){
             stams.first().interact("Withdraw-1");
             Condition.wait(() -> {
                 InventoryItemStream invStams = Inventory.stream().filtered(i -> i.name().contains("Stamina potion"));
@@ -30,9 +30,12 @@ public class SipStamina extends Leaf {
             },100,20);
 
             Item invStam = Inventory.stream().filtered(i -> i.name().contains("Stamina potion")).first();
-            if(invStam.interact("Drink")){
+            if(invStam.valid() && invStam.interact("Drink")){
                 if(Condition.wait(() -> Movement.energyLevel() > 20, 100, 20)){
-                    Inventory.stream().filtered(i -> i.name().contains("Stamina potion") || i.name().contains("Vial")).first().interact("Deposit-All");
+                    Item leftOver = Inventory.stream().filtered(i -> i.name().contains("Stamina potion") || i.name().contains("Vial")).first();
+                    if(leftOver.valid()) {
+                        leftOver.interact("Deposit-All");
+                    }
                 }
             }
             return;

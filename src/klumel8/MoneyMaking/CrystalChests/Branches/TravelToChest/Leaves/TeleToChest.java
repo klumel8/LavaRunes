@@ -19,7 +19,8 @@ public class TeleToChest extends Leaf {
     public void execute() {
         InventoryItemStream tabs = Inventory.stream().name("teleport to house");
 
-        if(tabs.isEmpty()){
+        if(!tabs.first().valid()){
+            System.out.println("Out of tabs!");
             ScriptManager.INSTANCE.stop();
             return;
         }

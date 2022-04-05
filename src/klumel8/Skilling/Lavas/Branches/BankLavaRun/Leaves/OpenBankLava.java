@@ -18,7 +18,7 @@ public class OpenBankLava extends Leaf {
     @Override
     public void execute() {
         GameObject bank = Objects.stream().name("Bank Chest").nearest().first();
-        if (bank.interact("Use")){
+        if (bank.valid() && bank.interact("Use")){
             Condition.wait(() -> Bank.opened(), 100, 40);
         }
     }

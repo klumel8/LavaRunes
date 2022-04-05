@@ -20,7 +20,11 @@ public class WalkToChest extends Leaf {
 
         GameObject chest = chests.first();
 
-        return !chest.isRendered();
+        if(chest.valid()) {
+            return !chest.isRendered();
+        }else{
+            return false;
+        }
     }
 
     @Override

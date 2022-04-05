@@ -28,6 +28,7 @@ import klumel8.Skilling.Lavas.store.Store;
 import org.powbot.api.Condition;
 import org.powbot.api.Notifications;
 import org.powbot.api.event.*;
+import org.powbot.api.rt4.Camera;
 import org.powbot.api.rt4.Equipment;
 import org.powbot.api.rt4.walking.model.Skill;
 import org.powbot.api.script.*;
@@ -59,6 +60,13 @@ import java.util.List;
                         allowedValues = {"Magic Imbue", "Earth Talisman"},
                         optionType = OptionType.STRING
                 ),
+//                @ScriptConfiguration(
+//                        name = "runes",
+//                        description = "What type of runes do you want to craft?",
+//                        defaultValue = "Lava",
+//                        allowedValues = {"Lava", "Steam"},
+//                        optionType = OptionType.STRING
+//                ),
                 @ScriptConfiguration(
                         name = "stamina",
                         description = "Do you want to use stamina potions or ferox enclave?",
@@ -87,6 +95,17 @@ public class LavasMain extends AbstractScript {
 
         Store.magicImbue = getOption("type").equals("Magic Imbue");
         Store.useStaminas = getOption("stamina").equals("Stamina");
+
+//        if(getOption("runes").equals("Lava")){
+            Store.rune = "Lava rune";
+            Store.talisman = "Earth talisman";
+            Store.useRune = "Earth rune";
+//        }else{
+//            Store.rune = "Steam rune";
+//            Store.talisman = "Water talisman";
+//            Store.useRune = "Water rune";
+//        }
+
         Store.getPouches();
         //System.out.println("pouch cap"+Store.pouchCapacity());
         Store.setInitialItems();
@@ -111,6 +130,10 @@ public class LavasMain extends AbstractScript {
                     .addString(() -> leafMessage())
                     .build();
             addPaint(paint);
+
+            if(Camera.getZoom() > 0.1) {
+                Camera.moveZoomSlider(0);
+            }
         }
     }
 

@@ -16,8 +16,8 @@ public class OpenBank extends Leaf {
 
     @Override
     public void execute() {
-        if(Objects.stream().name("Bank booth").first().interact("Bank")) {
-            if (Condition.wait(() -> Bank.opened(), 100, 60)) {
+        if(Bank.open()) {
+            if (Condition.wait(() -> Bank.opened(), 100, 10)) {
                 Bank.depositAllExcept(Shared.keepItems);
             }
         }

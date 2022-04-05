@@ -15,7 +15,9 @@ public class TurnToBank extends Leaf{
     @Override
     public void execute() {
         GameObject bank = Objects.stream().name("Bank booth").first();
-        Camera.turnTo(bank);
+        if(bank.valid()) {
+            Camera.turnTo(bank);
+        }
     }
 
     @Override

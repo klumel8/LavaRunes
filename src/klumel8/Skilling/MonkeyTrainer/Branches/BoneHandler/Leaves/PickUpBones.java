@@ -24,7 +24,7 @@ public class PickUpBones extends Leaf {
         }
 
         GroundItem bone = bones.first();
-        if(bone.interact("Take")) {
+        if(bone.valid() && bone.interact("Take")) {
             Condition.wait(() -> !bone.valid(), 100, 10);
         }
     }

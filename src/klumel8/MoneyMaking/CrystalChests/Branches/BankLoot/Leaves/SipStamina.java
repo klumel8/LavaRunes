@@ -28,7 +28,7 @@ public class SipStamina extends Leaf {
             },100,20);
 
             Item invStam = Inventory.stream().filtered(i -> i.name().contains("Stamina potion")).first();
-            if(invStam.interact("Drink")){
+            if(invStam.valid() && invStam.interact("Drink")){
                 if(Condition.wait(() -> Movement.energyLevel() > 20, 100, 20)){
                     Inventory.stream().filtered(i -> i.name().contains("Stamina potion") || i.name().contains("Vial")).first().interact("Deposit-All");
                 }

@@ -10,7 +10,7 @@ public class TurnToBank extends Leaf {
     @Override
     public boolean validate() {
         GameObject bank = Objects.stream().name("Bank Chest").nearest().first();
-        return bank.tile().distanceTo(Players.local().tile()) <= 8 && !bank.inViewport();
+        return bank.valid() && bank.tile().distanceTo(Players.local().tile()) <= 8 && !bank.inViewport();
     }
 
     @Override

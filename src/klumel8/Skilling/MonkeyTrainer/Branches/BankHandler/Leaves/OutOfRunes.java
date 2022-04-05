@@ -68,12 +68,15 @@ public class OutOfRunes extends Leaf {
 ////                ScriptManager.INSTANCE.stop();
 //                return;
 //            }
-            if(Bank.stream().id(runeID).first().stackSize() >= 1){
+            if(Bank.stream().id(runeID).first().valid() && Bank.stream().id(runeID).first().stackSize() >= 1){
                 if(!Bank.withdraw(runeID, Bank.Amount.ALL)){
                     return;
                 }
             }
         }
+
+        //Added sleep to make sure the inv is loaded
+        Condition.sleep(1000);
 
         if(Inventory.stream().name("Rune pouch").isNotEmpty()) {
 
@@ -96,8 +99,12 @@ public class OutOfRunes extends Leaf {
                     return;
                 }
 
-                if(r.interact("Use")){
-                    Inventory.stream().name("Rune pouch").first().interact("Use");
+                if(r.valid() && r.interact("Use")){
+                    Item rPouch = Inventory.stream().name("Rune pouch").first();
+                    if(rPouch.valid() && rPouch.interact("Use")){
+                        //Sleep because otherwise sometimes too fast
+                        Condition.sleep(800);
+                    }
                 }
             }
 

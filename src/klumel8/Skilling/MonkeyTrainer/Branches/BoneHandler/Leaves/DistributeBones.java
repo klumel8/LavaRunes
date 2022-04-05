@@ -29,7 +29,7 @@ public class DistributeBones extends Leaf {
                 if(dropTile.matrix().interact("Walk here")){
                 Condition.wait(() -> dropTile.distanceTo(Players.local().tile()) < 1, 100, 16);
                 Item bone = Inventory.stream().name("Bones").first();
-                if(bone.interact("Drop")) {
+                if(bone.valid() && bone.interact("Drop")) {
                     Condition.wait(() -> !bone.valid(), 100, 12);
                     return;
                 }

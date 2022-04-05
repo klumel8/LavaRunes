@@ -20,7 +20,7 @@ public class GoToAltar extends Branch {
 
     @Override
     public boolean validate() {
-        System.out.println("Got earth runes " + Inventory.stream().name("Earth rune").isNotEmpty());
+//        System.out.println("Got earth runes " + Inventory.stream().name("Earth rune").isNotEmpty());
         return lc.altarArea.contains(Players.local())
                 && (!Objects.stream().id(lc.altarId).first().inViewport()
                 || Objects.stream().id(lc.altarId).first().tile().distanceTo(Players.local()) > 7);

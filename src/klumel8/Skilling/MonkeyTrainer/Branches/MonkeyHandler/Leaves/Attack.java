@@ -14,7 +14,7 @@ public class Attack extends Leaf {
 
     @Override
     public void execute() {
-        if(Shared.bestMonkey.interact("Attack")) {
+        if(Shared.bestMonkey.valid() && Shared.bestMonkey.interact("Attack")) {
             Condition.wait(() -> !Players.local().interacting().valid() && Players.local().facingTile().equals(Shared.bestMonkey.tile()), 100, 12);
         }
     }

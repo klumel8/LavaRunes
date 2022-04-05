@@ -21,7 +21,7 @@ public class WalkToSpot extends Leaf {
     @Override
     public void execute() {
         Npc fishSpot = Npcs.stream().id(EelMain.spotId).nearest().first();
-        if(Movement.step(fishSpot.tile())) {
+        if(fishSpot.valid() && Movement.step(fishSpot.tile())) {
             Condition.wait(() -> fishSpot.tile().distanceTo(Players.local().tile()) < 8, 100, 50);
         }
     }

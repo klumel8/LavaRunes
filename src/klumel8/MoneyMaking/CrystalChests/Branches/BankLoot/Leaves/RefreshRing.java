@@ -22,10 +22,11 @@ public class RefreshRing extends Leaf {
             if( Bank.withdraw(ring.name(), Bank.Amount.ONE)) {
                 Condition.wait(() -> Inventory.stream().name(ring.name()).isNotEmpty(), 100, 20);
                 Condition.sleep(600);
-                if(Inventory.stream().name(ring.name()).first().interact("Wear")) {
+                Item ringItem = Inventory.stream().name(ring.name()).first();
+                if(ringItem.valid() && ringItem.interact("Wear")) {
                     Condition.wait(() -> Equipment.stream().filter(e -> e.name().contains("Ring of dueling")).count() != 0, 100, 20);
                 }
-                if(Inventory.stream().name(ring.name()).isNotEmpty()){
+                if(Inventory.stream().name(ring.name()).first().valid()){
                     Bank.deposit(ring.name(), Bank.Amount.ALL);
                 }
             }

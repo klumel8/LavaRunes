@@ -4,6 +4,7 @@ import klumel8.KlumAPI.Framework.Leaf;
 import klumel8.Skilling.MonkeyTrainer.Shared;
 import org.powbot.api.Condition;
 import org.powbot.api.rt4.Inventory;
+import org.powbot.api.rt4.Item;
 import org.powbot.api.rt4.Prayer;
 import org.powbot.api.rt4.Skills;
 import org.powbot.api.rt4.stream.item.InventoryItemStream;
@@ -22,17 +23,19 @@ public class RestorePrayer extends Leaf {
         if(potions.isNotEmpty()){
             final int prayBefore = Prayer.prayerPoints();
 
-            if(potions.first().interact("Drink")) {
+            if(potions.first().valid() && potions.first().interact("Drink")) {
                 Condition.wait(() -> Prayer.prayerPoints() > prayBefore, 100, 12);
             }
         }
-        if(Inventory.stream().name("Vial").isNotEmpty()){
-            Inventory.stream().name("Vial").first().interact("Drop");
+
+        Item vial = Inventory.stream().name("Vial").first();
+        if(vial.valid()){
+            vial.interact("Drop");
         }
     }
 
     @Override
     public String status() {
-        return "";
+        return "Restoring prayer";
     }
 }

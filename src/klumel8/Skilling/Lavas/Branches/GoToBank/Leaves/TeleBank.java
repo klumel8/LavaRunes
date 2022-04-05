@@ -37,6 +37,11 @@ public class TeleBank extends Leaf {
             Game.tab(Game.Tab.EQUIPMENT);
             Condition.wait(() -> Game.tab() == Game.Tab.EQUIPMENT, 100, 18);
         }
-        return Equipment.itemAt(Equipment.Slot.RING).interact(destination);
+
+        if(Equipment.itemAt(Equipment.Slot.RING).valid()) {
+            return Equipment.itemAt(Equipment.Slot.RING).interact(destination);
+        }else{
+            return false;
+        }
     }
 }

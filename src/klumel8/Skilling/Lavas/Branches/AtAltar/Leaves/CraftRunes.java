@@ -2,7 +2,9 @@ package klumel8.Skilling.Lavas.Branches.AtAltar.Leaves;
 
 import klumel8.KlumAPI.Framework.Leaf;
 import klumel8.Skilling.Lavas.store.Store;
+import org.powbot.api.Condition;
 import org.powbot.api.rt4.*;
+import org.powbot.api.rt4.walking.model.Skill;
 
 public class CraftRunes extends Leaf {
 
@@ -17,8 +19,14 @@ public class CraftRunes extends Leaf {
     public void execute() {
 
         GameObject altar = Objects.stream().name("Altar").first();
-        Inventory.stream().name("Earth rune").first().interact("Use");
-        altar.interact("Use");
+        Item rune = Inventory.stream().name("Earth rune").first();
+        long expBefore = Skills.experience(Skill.Runecrafting.getIndex());
+        if(rune.valid() && rune.interact("Use")) {
+            if(altar.valid() && altar.interact("Use")){
+                Condition.wait(() -> Skills.experience(Skill.Runecrafting.getIndex()) != expBefore, 100, 30);
+            }
+        }
+
 
 
     }

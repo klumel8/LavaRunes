@@ -14,7 +14,7 @@ public class AvoidDruids extends Leaf {
     public boolean validate() {
         NpcStream druids = Npcs.stream().name("Druid");
         for (Npc druid : druids){
-            if(CrystalConstants.druidBlocked.contains(druid.tile()) && (Camera.yaw() >= 190 || Camera.yaw() < 150)){
+            if(druid.valid() && (CrystalConstants.druidBlocked.contains(druid.tile()) && (Camera.yaw() >= 190 || Camera.yaw() < 150))){
                 return true;
             }
         }

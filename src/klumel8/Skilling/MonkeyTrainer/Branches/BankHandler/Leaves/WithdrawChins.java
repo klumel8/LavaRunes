@@ -6,6 +6,7 @@ import org.powbot.api.Condition;
 import org.powbot.api.rt4.Bank;
 import org.powbot.api.rt4.Equipment;
 import org.powbot.api.rt4.Inventory;
+import org.powbot.api.rt4.Item;
 import org.powbot.mobile.script.ScriptManager;
 
 public class WithdrawChins extends Leaf {
@@ -16,7 +17,12 @@ public class WithdrawChins extends Leaf {
 
     @Override
     public void execute() {
-        if(Bank.stream().name(Shared.weaponName).isEmpty()){
+        //Sometimes opens bank too quickly
+        Condition.sleep(600);
+
+        Item weapon = Bank.stream().name(Shared.weaponName).first();
+
+        if(!weapon.valid()){
             Shared.leafStatus = "OUT OF " + Shared.weaponName;
             System.out.println("OUT OF " + Shared.weaponName);
             Condition.sleep(100000);
@@ -24,7 +30,7 @@ public class WithdrawChins extends Leaf {
             return;
         }
 
-        if(Bank.stream().name(Shared.weaponName).first().stackSize() < Shared.chinAmount - Equipment.stream().name(Shared.weaponName).first().stackSize()){
+        if(weapon.valid() && weapon.stackSize() < Shared.chinAmount - Equipment.stream().name(Shared.weaponName).first().stackSize()){
             Shared.leafStatus = "Not enough " + Shared.weaponName;
             System.out.println("Not enough " + Shared.weaponName);
             Condition.sleep(100000);

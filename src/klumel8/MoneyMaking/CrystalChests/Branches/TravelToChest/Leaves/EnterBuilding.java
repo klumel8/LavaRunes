@@ -15,10 +15,6 @@ public class EnterBuilding extends Leaf {
     public boolean validate() {
         GameObjectStream doors = Objects.stream().name("Door").nearest(CrystalConstants.doorTile);
 
-        if(doors.isEmpty()){
-            return false;
-        }
-
         return CrystalConstants.doorTile.distanceTo(Players.local().tile()) < 6 && !doors.first().actions().contains("Open");
     }
 

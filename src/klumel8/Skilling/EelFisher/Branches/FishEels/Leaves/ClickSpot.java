@@ -25,7 +25,7 @@ public class ClickSpot extends Leaf {
     @Override
     public void execute() {
         Npc fishSpot = Npcs.stream().id(EelMain.spotId).nearest().first();
-        if(fishSpot.interact("Bait")){
+        if(fishSpot.valid() && fishSpot.interact("Bait")){
             int fishAnimationId = 622;
             Condition.wait(() -> Players.local().movementAnimation() == fishAnimationId, 100, 50);
         }

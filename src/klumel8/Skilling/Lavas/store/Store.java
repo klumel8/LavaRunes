@@ -24,6 +24,10 @@ public class Store {
     public static String leafStatus = "";
     public static String errorMsg = "";
 
+    public static String talisman = "";
+    public static String useRune = "";
+    public static String rune = "";
+
     public static int colPouchFill = 0;
 
     public static void didImbue(){

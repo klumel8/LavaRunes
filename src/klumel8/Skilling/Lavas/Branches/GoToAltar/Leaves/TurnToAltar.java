@@ -10,7 +10,7 @@ public class TurnToAltar extends Leaf {
     LavaConstants lc = new LavaConstants();
     @Override
     public boolean validate() {
-        return lc.altarTile.distanceTo(Players.local().tile()) < 7 && !Objects.stream().name("Altar").first().inViewport();
+        return lc.altarTile.distanceTo(Players.local().tile()) < 7 && Objects.stream().name("Altar").first().valid() && !Objects.stream().name("Altar").first().inViewport();
     }
 
     @Override

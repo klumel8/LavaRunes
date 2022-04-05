@@ -17,11 +17,7 @@ public class OpenBank extends Leaf {
     public void execute() {
         GameObjectStream chests = Objects.stream().id(CrystalConstants.castleBankID);
 
-        if(chests.isEmpty()){
-            return;
-        }
-
-        if(chests.first().interact("Use")) {
+        if(chests.first().valid() && chests.first().interact("Use")) {
             Condition.wait(() -> Bank.opened(), 100, 40);
         }
     }
